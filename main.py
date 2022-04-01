@@ -1,13 +1,13 @@
 from constants import *
 from models import *
 
-#First define pokemons with its stats
+# First define pokemons with its stats
 
 pokemon1 = Pokemon("Bulbasaur", 100, "grass", "poison")
 pokemon2 = Pokemon("Charmander", 100, "fire", None)
 pokemon1.current_hp = 45
 pokemon2.current_hp = 39
-#Stats pokemons
+# Stats pokemons
 
 pokemon1.stats = {
     HP: 45,
@@ -27,15 +27,17 @@ pokemon2.stats = {
     SPEED: 65
 }
 
-#Attacks
-pokemon1.attacks = [Attack("scratch", "normal", PHYSICAL, 10, 10, 100)]
-pokemon2.attacks = [Attack("scratch", "normal", PHYSICAL, 10, 10, 100)]
+# Attacks
+pokemon1.attacks = [Attack("scratch", "normal", PHYSICAL, 10, 10, 100),
+                    Attack("whine wip", "grass", PHYSICAL, 10, 15, 100)]
+pokemon2.attacks = [Attack("scratch", "normal", PHYSICAL, 10, 10, 100),
+                    Attack("ember", "fire", SPECIAL, 10, 25, 100)]
 
 
 def ask_command(pokemon):
     command = None
     while not command:
-        tmp_command = input("What should "+pokemon.name+" do?").split(" ")
+        tmp_command = input("What should " + pokemon.name + " do?").split(" ")
         if len(tmp_command) == 2:
             try:
                 if tmp_command[0] == DO_ATTACK and 0 <= int(tmp_command[1]) < 4:
@@ -44,17 +46,18 @@ def ask_command(pokemon):
                 pass
     return command
 
-#Start battle
+
+# Start battle
 
 battle = Battle(pokemon1, pokemon2)
 
 while not battle.is_finished():
-    #Main pokemon battle loop
-    #First ask for the commands
+    # Main pokemon battle loop
+    # First ask for the commands
     command1 = ask_command(pokemon1)
     command2 = ask_command(pokemon2)
 
-    #Generate new turn
+    # Generate new turn
     turn = Turn()
     turn.command1 = command1
     turn.command2 = command2
@@ -63,4 +66,3 @@ while not battle.is_finished():
         # Execute turn
         battle.execute_turn(turn)
         battle.print_current_status()
-
